@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, FlatList, Button } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
 import { removeFromCart } from "../../redux/actions/carts";
+import { createOrder } from "../../redux/actions/orders";
 import Theme from "../../constants/Theme";
 import CartItem from "../../components/shop/CartItem";
 
@@ -10,7 +11,9 @@ const CartScreen = () => {
   const dispatch = useDispatch();
   const totalAmount = useSelector(({ carts: { totalAmount } }) => totalAmount);
   const cartItems = useSelector(({ carts: { items } }) =>
-    Object.keys(items).map((key) => ({ productId: key, ...items[key] }))
+    Object.keys(items)
+      .map((key) => ({ productId: key, ...items[key] }))
+      .sort((a, b) => (a.productId > b.productId ? 1 : -1))
   );
 
   return (
@@ -21,6 +24,7 @@ const CartScreen = () => {
           <Text style={styles.amount}>${Math.abs(totalAmount.toFixed(2))}</Text>
         </Text>
         <Button
+          onPress={() => dispatch(createOrder(cartItems, totalAmount))}
           disabled={!cartItems.length}
           color={Theme.secondary}
           title="Order Now"

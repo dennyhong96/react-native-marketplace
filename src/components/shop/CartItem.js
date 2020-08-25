@@ -10,7 +10,7 @@ const CartItem = ({ item, onDelete }) => {
         <Text style={styles.mainTxt}>{item.productTitle}</Text>
       </View>
       <View style={styles.itemData}>
-        <Text style={styles.mainTxt}>${item.sum}</Text>
+        <Text style={styles.mainTxt}>${item.sum.toFixed(2)}</Text>
         <TouchableOpacity onPress={onDelete} style={styles.deleteBtn}>
           <Feather name="trash-2" size={23} color="red" />
         </TouchableOpacity>
@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginHorizontal: 20,
+    marginBottom: 10,
   },
   itemData: {
     flexDirection: "row",
