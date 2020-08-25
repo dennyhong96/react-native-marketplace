@@ -5,6 +5,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import ProductsOverviewScreen from "../screens/shop/ProductsOverviewScreen";
 import ProductDetailScreen from "../screens/shop/ProductDetailScreen";
+import CartScreen from "../screens/shop/CartScreen";
 import Theme from "../constants/Theme";
 
 const Stack = createStackNavigator();
@@ -30,6 +31,11 @@ const ShopStack = () => {
           name="ProductsOverview"
           component={ProductsOverviewScreen}
           options={{ headerTitle: "Product Overview" }}
+        />
+        <Stack.Screen
+          name="Cart"
+          component={CartScreen}
+          options={{ headerTitle: "My Cart" }}
         />
         <Stack.Screen name="ProductDetails" component={ProductDetailScreen} />
       </Stack.Navigator>

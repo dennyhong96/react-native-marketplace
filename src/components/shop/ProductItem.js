@@ -76,10 +76,7 @@ const styles = StyleSheet.create({
     color: 888,
   },
   product: {
-    shadowColor: "#000",
-    shadowOpacity: 0.26,
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 5,
+    ...Theme.shadow1,
     borderRadius: 10,
     backgroundColor: "#fff",
     height: 300,
