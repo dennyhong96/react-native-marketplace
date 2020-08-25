@@ -1,4 +1,4 @@
-import { ADD_TO_CART } from "../actions/actionTypes";
+import { ADD_TO_CART, REMOVE_FROM_CART } from "../actions/actionTypes";
 import CartItem from "../../data/models/cartItem";
 
 const INITIAL_STATE = {
@@ -8,18 +8,18 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
   const { type, payload } = action;
+  // Get a deep copy of the state
+  const newState = JSON.parse(JSON.stringify(state));
   switch (type) {
     case ADD_TO_CART:
-      // Get a deep copy of the state
-      const newState = JSON.parse(JSON.stringify(state));
       if (newState.items[payload.id]) {
-        // Update quantity of item in cart
+        // Hanlde increase quantity of item in cart
         newState.items[payload.id].title = payload.title;
         newState.items[payload.id].productPrice = payload.price;
         newState.items[payload.id].quantity++;
         newState.items[payload.id].sum += payload.price;
       } else {
-        // Add new item into cart
+        // Handle add new item into cart
         newState.items[payload.id] = new CartItem(
           1,
           payload.price,
@@ -28,6 +28,18 @@ export default (state = INITIAL_STATE, action) => {
         );
       }
       newState.totalAmount += payload.price;
+      return newState;
+    case REMOVE_FROM_CART:
+      // Decrease total amount
+      newState.totalAmount -= newState.items[payload].productPrice;
+      if (newState.items[payload].quantity > 1) {
+        // Handle decrease quantity
+        newState.items[payload].sum -= newState.items[payload].productPrice;
+        newState.items[payload].quantity--;
+      } else {
+        // Handle delete item
+        delete newState.items[payload];
+      }
       return newState;
     default:
       return state;

@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, FlatList, Button } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
+import { removeFromCart } from "../../redux/actions/carts";
 import Theme from "../../constants/Theme";
 import CartItem from "../../components/shop/CartItem";
 
@@ -12,13 +13,12 @@ const CartScreen = () => {
     Object.keys(items).map((key) => ({ productId: key, ...items[key] }))
   );
 
-  console.log(cartItems);
-
   return (
     <View style={styles.screen}>
       <View style={styles.summary}>
         <Text style={styles.summaryText}>
-          Total: <Text style={styles.amount}>${totalAmount.toFixed(2)}</Text>
+          Total:{" "}
+          <Text style={styles.amount}>${Math.abs(totalAmount.toFixed(2))}</Text>
         </Text>
         <Button
           disabled={!cartItems.length}
@@ -26,11 +26,15 @@ const CartScreen = () => {
           title="Order Now"
         />
       </View>
-
       <FlatList
         data={cartItems}
         keyExtractor={(item) => item.productId}
-        renderItem={({ item }) => <CartItem item={item} />}
+        renderItem={({ item }) => (
+          <CartItem
+            item={item}
+            onDelete={() => dispatch(removeFromCart(item.productId))}
+          />
+        )}
       />
     </View>
   );
