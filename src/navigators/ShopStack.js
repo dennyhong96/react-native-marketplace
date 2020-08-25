@@ -4,6 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import ProductsOverviewScreen from "../screens/shop/ProductsOverviewScreen";
+import ProductDetailScreen from "../screens/shop/ProductDetailScreen";
 import Theme from "../constants/Theme";
 
 const Stack = createStackNavigator();
@@ -17,13 +18,20 @@ const ShopStack = () => {
             backgroundColor: Platform.OS === "ios" ? undefined : Theme.primary,
           },
           headerTintColor: Platform.OS === "ios" ? Theme.primary : "#fff",
-          headerTitle: "Products Overview",
+          headerTitleStyle: {
+            fontFamily: "open-sans-bold",
+          },
+          headerBackTitleStyle: {
+            fontFamily: "open-sans",
+          },
         }}
       >
         <Stack.Screen
           name="ProductsOverview"
           component={ProductsOverviewScreen}
+          options={{ headerTitle: "Product Overview" }}
         />
+        <Stack.Screen name="ProductDetails" component={ProductDetailScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
