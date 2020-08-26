@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useRef } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import {
   View,
   Text,
@@ -7,10 +7,15 @@ import {
   TextInput,
   Alert,
   KeyboardAvoidingView,
+  ActivityIndicator,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
+
+import HeaderButton from "../../components/ui/HeaderButton";
 
 import { createProduct, editProduct } from "../../redux/actions/products";
+import Theme from "../../constants/Theme";
 
 const INITIAL_FORM = {
   title: "",
@@ -54,12 +59,14 @@ const EditProductScreen = ({ navigation, route }) => {
       : INITIAL_FORM
   );
   const [errors, setErrors] = useState(INITIAL_ERROR);
+  const [loading, setLoading] = useState(false);
+  const [networkErr, setNetworkErr] = useState(false);
 
   const { title, imageUrl, description, price } = formData;
   const { titleErr, imageUrlErr, priceErr, descriptionErr } = errors;
 
   // Handle saving changes and add products
-  const handleSubmit = useCallback(() => {
+  const handleSubmit = useCallback(async () => {
     // Check for input errors
     if (titleErr || imageUrlErr || priceErr || descriptionErr) {
       Alert.alert("Invalid Inputs.", "Please make sure your input is valid.", [
@@ -78,8 +85,15 @@ const EditProductScreen = ({ navigation, route }) => {
       }
 
       // Edit product
-      dispatch(editProduct(route.params.id, formData));
-      navigation.goBack();
+      try {
+        setLoading(true);
+        await dispatch(editProduct(route.params.id, formData));
+        setLoading(false);
+        navigation.goBack();
+      } catch (error) {
+        setNetworkErr(true);
+        setLoading(false);
+      }
     } else {
       // Check for empty fields
       if (!(title && imageUrl && price && description)) {
@@ -90,15 +104,47 @@ const EditProductScreen = ({ navigation, route }) => {
       }
 
       // Add product
-      dispatch(createProduct(formData));
-      navigation.goBack();
+      try {
+        setLoading(true);
+        await dispatch(createProduct(formData));
+
+        navigation.goBack();
+      } catch (error) {
+        setNetworkErr(true);
+        setLoading(false);
+      }
     }
   }, [formData, errors]);
 
-  useEffect(() => {
-    // Set handle submit as nav params to call from header btn
-    navigation.setParams({ handleSubmit });
-  }, [handleSubmit]);
+  navigation.setOptions({
+    headerRight: () => (
+      <HeaderButtons HeaderButtonComponent={HeaderButton}>
+        <Item iconName="save" onPress={handleSubmit} />
+      </HeaderButtons>
+    ),
+  });
+
+  if (loading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size="large" color={Theme.primary} />
+      </View>
+    );
+  }
+
+  if (networkErr) {
+    Alert.alert(
+      "Something went wrong",
+      "Error saving the product, try again later.",
+      [
+        {
+          text: "Okay",
+          style: "default",
+        },
+      ]
+    );
+    return setNetworkErr(false);
+  }
 
   return (
     <KeyboardAvoidingView
@@ -230,6 +276,11 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     borderBottomColor: "#ccc",
     borderBottomWidth: 1,
+  },
+  centered: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

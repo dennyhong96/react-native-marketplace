@@ -46,11 +46,6 @@ const AdminNavigator = () => (
         headerTitle:
           route.params && route.params.id ? "Edit Product" : "Add Product",
         headerTintColor: Platform.OS === "ios" ? Theme.primary : "#fff",
-        headerRight: () => (
-          <HeaderButtons HeaderButtonComponent={HeaderButton}>
-            <Item iconName="save" onPress={() => route.params.handleSubmit()} />
-          </HeaderButtons>
-        ),
       })}
     />
   </UserStack.Navigator>
