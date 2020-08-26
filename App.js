@@ -3,7 +3,7 @@ import { Provider } from "react-redux";
 import * as Font from "expo-font";
 import { AppLoading } from "expo";
 
-import ShopStack from "./src/navigators/ShopStack";
+import RootNavigator from "./src/navigators/Root";
 
 import store from "./src/redux/store";
 
@@ -27,7 +27,7 @@ const App = () => {
     );
   }
 
-  return <ShopStack />;
+  return <RootNavigator />;
 };
 
 export default () => (
