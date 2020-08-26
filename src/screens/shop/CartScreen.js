@@ -38,14 +38,6 @@ const CartScreen = ({ navigation }) => {
     }
   };
 
-  if (loading) {
-    return (
-      <View style={styles.centered}>
-        <ActivityIndicator size="large" color={Theme.primary} />
-      </View>
-    );
-  }
-
   if (err) {
     Alert.alert(
       "Something went wrong.",
@@ -64,12 +56,16 @@ const CartScreen = ({ navigation }) => {
             ${Math.abs(parseFloat(totalAmount).toFixed(2))}
           </Text>
         </Text>
-        <Button
-          onPress={handleOrder}
-          disabled={!cartItems.length}
-          color={Theme.secondary}
-          title="Order Now"
-        />
+        {loading ? (
+          <ActivityIndicator size="small" color={Theme.primary} />
+        ) : (
+          <Button
+            onPress={handleOrder}
+            disabled={!cartItems.length}
+            color={Theme.secondary}
+            title="Order Now"
+          />
+        )}
       </View>
       <FlatList
         data={cartItems}

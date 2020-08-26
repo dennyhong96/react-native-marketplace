@@ -5,6 +5,7 @@ import CartItem from "./CartItem";
 import Theme from "../../constants/Theme";
 
 const OrderItem = ({ order }) => {
+  // console.log(order);
   const [showDetail, setShowDetail] = useState(false);
   return (
     <View style={styles.orderItem}>

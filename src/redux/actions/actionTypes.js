@@ -5,6 +5,7 @@ export const CLEAR_CART = "CLEAR_CART";
 
 // Orders
 export const CREATE_ORDER = "CREATE_ORDER";
+export const ORDER_LISTED = "ORDER_LISTED";
 
 // Products
 export const DELETE_PRODUCT = "DELETE_PRODUCTS";
