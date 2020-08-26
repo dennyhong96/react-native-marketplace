@@ -4,7 +4,6 @@ import {
   Text,
   StyleSheet,
   Image,
-  Button,
   TouchableOpacity,
   TouchableNativeFeedback,
   Platform,
@@ -12,7 +11,7 @@ import {
 
 import Theme from "../../constants/Theme";
 
-const ProductItem = ({ product, onDetail, onAddToCart }) => {
+const ProductItem = ({ product, onSelect, children }) => {
   // For android ripple effect
   let TouchableCmp = TouchableOpacity;
   if (Platform.OS === "android" && Platform.Version >= 21) {
@@ -22,7 +21,7 @@ const ProductItem = ({ product, onDetail, onAddToCart }) => {
   return (
     <View style={styles.product}>
       <View style={styles.touchable}>
-        <TouchableCmp onPress={onDetail} useForeground>
+        <TouchableCmp onPress={onSelect} useForeground>
           <View style={styles.imgContainer}>
             <Image source={{ uri: product.imageUrl }} style={styles.image} />
           </View>
@@ -30,14 +29,7 @@ const ProductItem = ({ product, onDetail, onAddToCart }) => {
             <Text style={styles.title}>{product.title}</Text>
             <Text style={styles.price}>${product.price.toFixed(2)}</Text>
           </View>
-          <View style={styles.actions}>
-            <Button color={Theme.primary} title="Details" onPress={onDetail} />
-            <Button
-              color={Theme.primary}
-              title="Add To Cart"
-              onPress={onAddToCart}
-            />
-          </View>
+          <View style={styles.actions}>{children}</View>
         </TouchableCmp>
       </View>
     </View>

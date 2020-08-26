@@ -1,10 +1,10 @@
 import React from "react";
-import { FlatList, StyleSheet } from "react-native";
+import { FlatList, Button } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { addToCart } from "../../redux/actions/carts";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
-import { Feather } from "@expo/vector-icons";
 
+import Theme from "../../constants/Theme";
 import HeaderButton from "../../components/ui/HeaderButton";
 import ProductItem from "../../components/shop/ProductItem";
 
@@ -41,16 +41,26 @@ const ProductsOverviewScreen = ({ navigation }) => {
       renderItem={({ item }) => (
         <ProductItem
           product={item}
-          onDetail={() => {
+          onSelect={() => {
             navigation.navigate("ProductDetails", { product: item });
           }}
-          onAddToCart={() => dispatch(addToCart(item))}
-        />
+        >
+          <Button
+            color={Theme.primary}
+            title="Details"
+            onPress={() => {
+              navigation.navigate("ProductDetails", { product: item });
+            }}
+          />
+          <Button
+            color={Theme.primary}
+            title="Add To Cart"
+            onPress={() => dispatch(addToCart(item))}
+          />
+        </ProductItem>
       )}
     />
   );
 };
-
-const styles = StyleSheet.create({});
 
 export default ProductsOverviewScreen;

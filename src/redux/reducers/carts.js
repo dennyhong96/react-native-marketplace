@@ -2,6 +2,7 @@ import {
   ADD_TO_CART,
   REMOVE_FROM_CART,
   CLEAR_CART,
+  DELETE_PRODUCT,
 } from "../actions/actionTypes";
 import CartItem from "../../data/models/cartItem";
 
@@ -47,6 +48,15 @@ export default (state = INITIAL_STATE, action) => {
       return newState;
     case CLEAR_CART:
       return INITIAL_STATE;
+    case DELETE_PRODUCT:
+      // Delete cart items when product is deleted
+      if (!newState.items[payload]) {
+        return state;
+      }
+      newState.totalAmount -=
+        newState.items[payload].quantity * newState.items[payload].productPrice;
+      delete newState.items[payload];
+      return newState;
     default:
       return state;
   }
