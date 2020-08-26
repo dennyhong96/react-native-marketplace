@@ -27,7 +27,7 @@ const ShopNavigator = () => (
     <ShopStack.Screen
       name="ProductsOverview"
       component={ProductsOverviewScreen}
-      options={{ headerTitle: "Product Overview" }}
+      options={{ headerTitle: "All Products" }}
     />
     <ShopStack.Screen
       name="Cart"
