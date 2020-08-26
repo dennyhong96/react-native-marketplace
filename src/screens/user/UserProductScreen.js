@@ -1,5 +1,12 @@
-import React from "react";
-import { FlatList, Button, Alert } from "react-native";
+import React, { useState } from "react";
+import {
+  FlatList,
+  Button,
+  Alert,
+  ActivityIndicator,
+  View,
+  StyleSheet,
+} from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
 import { deleteProduct } from "../../redux/actions/products";
@@ -8,6 +15,9 @@ import Theme from "../../constants/Theme";
 
 const UserProductScreen = ({ navigation }) => {
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+  const [err, setErr] = useState(false);
+
   const userProducts = useSelector(
     ({ products: { userProducts } }) => userProducts
   );
@@ -18,10 +28,35 @@ const UserProductScreen = ({ navigation }) => {
       {
         text: "Yes",
         style: "destructive",
-        onPress: () => dispatch(deleteProduct(item.id)),
+        onPress: async () => {
+          setLoading(true);
+          try {
+            await dispatch(deleteProduct(item.id));
+          } catch (error) {
+            setErr(true);
+          }
+          setLoading(false);
+        },
       },
     ]);
   };
+
+  if (loading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size="large" color={Theme.primary} />
+      </View>
+    );
+  }
+
+  if (err) {
+    Alert.alert(
+      "Someting went wrong",
+      "Error deleting product, please try again.",
+      [{ text: "Okay", style: "default" }]
+    );
+    return setErr(false);
+  }
 
   return (
     <FlatList
@@ -50,5 +85,13 @@ const UserProductScreen = ({ navigation }) => {
     />
   );
 };
+
+const styles = StyleSheet.create({
+  centered: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
 
 export default UserProductScreen;
