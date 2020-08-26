@@ -26,7 +26,7 @@ const CartScreen = ({ navigation }) => {
         <Button
           onPress={() => {
             dispatch(createOrder(cartItems, totalAmount));
-            navigation.navigate("Order");
+            navigation.goBack();
           }}
           disabled={!cartItems.length}
           color={Theme.secondary}

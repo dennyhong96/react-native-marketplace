@@ -19,8 +19,11 @@ const OrderItem = ({ order }) => {
       />
       {showDetail && (
         <View>
-          {order.items.map((item) => (
-            <CartItem key={item.id} item={item} />
+          {order.items.map((item, idx) => (
+            <CartItem
+              key={`${item.productTitle}-${idx}-${item.id}`}
+              item={item}
+            />
           ))}
         </View>
       )}

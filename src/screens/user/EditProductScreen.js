@@ -33,13 +33,12 @@ const EditProductScreen = ({ navigation, route }) => {
   );
 
   const handleSubmit = useCallback(() => {
-    console.log(formData);
     if (editingProduct) {
       dispatch(editProduct(route.params.id, formData));
-      navigation.navigate("UserProducts");
+      navigation.goBack();
     } else {
       dispatch(createProduct(formData));
-      navigation.navigate("UserProducts");
+      navigation.goBack();
     }
   }, [formData]);
 

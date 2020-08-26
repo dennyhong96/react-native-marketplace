@@ -11,6 +11,7 @@ const ShopStack = createStackNavigator();
 
 const ShopNavigator = () => (
   <ShopStack.Navigator
+    initialRouteName="ProductsOverview"
     screenOptions={{
       headerStyle: {
         backgroundColor: Platform.OS === "ios" ? undefined : Theme.primary,
