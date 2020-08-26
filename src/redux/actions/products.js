@@ -57,19 +57,40 @@ export const listProducts = () => async (dispatch) => {
   }
 };
 
-export const editProduct = (id, formData) => (dispatch) => {
-  dispatch({
-    type: EDIT_PRODUCT,
-    payload: {
-      id,
-      formData,
-    },
-  });
+export const editProduct = (id, formData) => async (dispatch) => {
+  try {
+    const res = await axios.patch(
+      `https://rn-shop-5c7c3.firebaseio.com/products/${id}.json`,
+      { ...formData },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    dispatch({
+      type: EDIT_PRODUCT,
+      payload: {
+        id,
+        formData: res.data,
+      },
+    });
+  } catch (error) {
+    throw error;
+  }
 };
 
-export const deleteProduct = (id) => (dispatch) => {
-  dispatch({
-    type: DELETE_PRODUCT,
-    payload: id,
-  });
+export const deleteProduct = (id) => async (dispatch) => {
+  try {
+    await axios.delete(
+      `https://rn-shop-5c7c3.firebaseio.com/products/${id}.json`
+    );
+    dispatch({
+      type: DELETE_PRODUCT,
+      payload: id,
+    });
+  } catch (error) {
+    throw error;
+  }
 };
