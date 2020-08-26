@@ -3,7 +3,7 @@ import { Provider } from "react-redux";
 import * as Font from "expo-font";
 import { AppLoading } from "expo";
 
-import RootNavigator from "./src/navigators/Root";
+import RootNavigator from "./src/navigators/index";
 
 import store from "./src/redux/store";
 
