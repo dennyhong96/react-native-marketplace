@@ -10,12 +10,7 @@ export default (state = INITIAL_STATE, action) => {
     case CREATE_ORDER:
       return [
         ...state,
-        new Order(
-          new Date().toString(),
-          payload.items,
-          payload.totalAmount,
-          new Date()
-        ),
+        new Order(payload.id, payload.items, payload.totalAmount, payload.date),
       ];
     default:
       return state;
