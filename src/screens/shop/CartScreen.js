@@ -21,7 +21,9 @@ const CartScreen = ({ navigation }) => {
       <View style={styles.summary}>
         <Text style={styles.summaryText}>
           Total:{" "}
-          <Text style={styles.amount}>${Math.abs(totalAmount.toFixed(2))}</Text>
+          <Text style={styles.amount}>
+            ${Math.abs(parseFloat(totalAmount).toFixed(2))}
+          </Text>
         </Text>
         <Button
           onPress={() => {

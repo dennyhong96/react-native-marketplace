@@ -10,7 +10,7 @@ const CartItem = ({ item, onDelete }) => {
         <Text style={styles.mainTxt}>{item.productTitle}</Text>
       </View>
       <View style={styles.itemData}>
-        <Text style={styles.mainTxt}>${item.sum.toFixed(2)}</Text>
+        <Text style={styles.mainTxt}>${parseFloat(item.sum).toFixed(2)}</Text>
         {onDelete && (
           <TouchableOpacity onPress={onDelete} style={styles.deleteBtn}>
             <Feather name="trash-2" size={23} color="red" />

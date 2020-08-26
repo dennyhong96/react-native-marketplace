@@ -27,7 +27,9 @@ const ProductItem = ({ product, onSelect, children }) => {
           </View>
           <View style={styles.details}>
             <Text style={styles.title}>{product.title}</Text>
-            <Text style={styles.price}>${product.price.toFixed(2)}</Text>
+            <Text style={styles.price}>
+              ${parseFloat(product.price).toFixed(2)}
+            </Text>
           </View>
           <View style={styles.actions}>{children}</View>
         </TouchableCmp>

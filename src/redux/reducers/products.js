@@ -3,17 +3,24 @@ import {
   DELETE_PRODUCT,
   CREATE_PRODUCT,
   EDIT_PRODUCT,
+  PRODUCTS_LISTED,
 } from "../actions/actionTypes";
 import Product from "../../data/models/product";
 
 const INITIAL_STATE = {
-  availableProducts: PRODUCTS,
-  userProducts: PRODUCTS.filter((product) => product.ownerId === "u1"),
+  availableProducts: [],
+  userProducts: [],
 };
 
 export default (state = INITIAL_STATE, action) => {
   const { type, payload } = action;
   switch (type) {
+    case PRODUCTS_LISTED:
+      return {
+        ...state,
+        availableProducts: payload,
+        userProducts: payload.filter((product) => product.owenerId === "u1"),
+      };
     case DELETE_PRODUCT:
       return {
         ...state,
@@ -25,13 +32,12 @@ export default (state = INITIAL_STATE, action) => {
         ),
       };
     case CREATE_PRODUCT:
-      const id = `${Math.random() * 99999}`;
       return {
         ...state,
         availableProducts: [
           ...state.availableProducts,
           new Product(
-            id,
+            payload.id,
             "u1",
             payload.title,
             payload.imageUrl,
@@ -42,7 +48,7 @@ export default (state = INITIAL_STATE, action) => {
         userProducts: [
           ...state.userProducts,
           new Product(
-            id,
+            payload.id,
             "u1",
             payload.title,
             payload.imageUrl,
