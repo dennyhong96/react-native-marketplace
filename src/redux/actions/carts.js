@@ -1,4 +1,4 @@
-import { ADD_TO_CART, REMOVE_FROM_CART } from "./actionTypes";
+import { ADD_TO_CART, REMOVE_FROM_CART, CLEAR_CART } from "./actionTypes";
 
 export const addToCart = (product) => (dispatch) => {
   dispatch({
@@ -11,5 +11,11 @@ export const removeFromCart = (id) => (dispatch) => {
   dispatch({
     type: REMOVE_FROM_CART,
     payload: id,
+  });
+};
+
+export const clearCart = (id) => (dispatch) => {
+  dispatch({
+    type: CLEAR_CART,
   });
 };

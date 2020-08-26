@@ -11,9 +11,11 @@ const CartItem = ({ item, onDelete }) => {
       </View>
       <View style={styles.itemData}>
         <Text style={styles.mainTxt}>${item.sum.toFixed(2)}</Text>
-        <TouchableOpacity onPress={onDelete} style={styles.deleteBtn}>
-          <Feather name="trash-2" size={23} color="red" />
-        </TouchableOpacity>
+        {onDelete && (
+          <TouchableOpacity onPress={onDelete} style={styles.deleteBtn}>
+            <Feather name="trash-2" size={23} color="red" />
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );

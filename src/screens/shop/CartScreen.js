@@ -7,7 +7,7 @@ import { createOrder } from "../../redux/actions/orders";
 import Theme from "../../constants/Theme";
 import CartItem from "../../components/shop/CartItem";
 
-const CartScreen = () => {
+const CartScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const totalAmount = useSelector(({ carts: { totalAmount } }) => totalAmount);
   const cartItems = useSelector(({ carts: { items } }) =>
@@ -24,7 +24,10 @@ const CartScreen = () => {
           <Text style={styles.amount}>${Math.abs(totalAmount.toFixed(2))}</Text>
         </Text>
         <Button
-          onPress={() => dispatch(createOrder(cartItems, totalAmount))}
+          onPress={() => {
+            dispatch(createOrder(cartItems, totalAmount));
+            navigation.navigate("Order");
+          }}
           disabled={!cartItems.length}
           color={Theme.secondary}
           title="Order Now"

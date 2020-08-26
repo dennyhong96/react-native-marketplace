@@ -1,4 +1,8 @@
-import { ADD_TO_CART, REMOVE_FROM_CART } from "../actions/actionTypes";
+import {
+  ADD_TO_CART,
+  REMOVE_FROM_CART,
+  CLEAR_CART,
+} from "../actions/actionTypes";
 import CartItem from "../../data/models/cartItem";
 
 const INITIAL_STATE = {
@@ -41,6 +45,8 @@ export default (state = INITIAL_STATE, action) => {
         delete newState.items[payload];
       }
       return newState;
+    case CLEAR_CART:
+      return INITIAL_STATE;
     default:
       return state;
   }
