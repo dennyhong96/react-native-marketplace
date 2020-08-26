@@ -50,7 +50,7 @@ const OrderScreen = ({ navigation, route }) => {
   if (err) {
     return (
       <View style={styles.centered}>
-        <Text style={{ color: "red" }}>
+        <Text style={{ color: "red", fontFamily: "open-sans-bold" }}>
           Something went wrong while loading your orders.
         </Text>
         <Button
@@ -58,6 +58,16 @@ const OrderScreen = ({ navigation, route }) => {
           color={Theme.secondary}
           onPress={fetchOrders}
         />
+      </View>
+    );
+  }
+
+  if (!err && !orders.length) {
+    return (
+      <View style={styles.centered}>
+        <Text style={{ fontFamily: "open-sans-bold" }}>
+          No orders found, please add some...
+        </Text>
       </View>
     );
   }

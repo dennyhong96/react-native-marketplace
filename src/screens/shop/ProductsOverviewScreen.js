@@ -18,7 +18,8 @@ import ProductItem from "../../components/shop/ProductItem";
 
 const ProductsOverviewScreen = ({ navigation }) => {
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false); // For useEffects
+  const [refreshing, setRefreshing] = useState(false); // For FlatList pull to refresh
   const [err, setErr] = useState(false);
 
   const availableProducts = useSelector(
@@ -27,18 +28,26 @@ const ProductsOverviewScreen = ({ navigation }) => {
 
   // For page to load first time
   useEffect(() => {
-    fetchProducts();
+    (async () => {
+      setLoading(true);
+      await fetchProducts();
+      setLoading(false);
+    })();
   }, [fetchProducts]);
 
   // For screen re-focus from other screens
   useEffect(() => {
-    const unSubscribe = navigation.addListener("focus", fetchProducts);
+    const unSubscribe = navigation.addListener("focus", async () => {
+      setLoading(true);
+      await fetchProducts();
+      setLoading(false);
+    });
     return unSubscribe;
   }, [fetchProducts]);
 
   // Fetch a list of products
   const fetchProducts = useCallback(async () => {
-    setLoading(true);
+    setRefreshing(true);
     setErr(false);
     try {
       await dispatch(listProducts());
@@ -46,7 +55,7 @@ const ProductsOverviewScreen = ({ navigation }) => {
       console.log("dfjslf");
       setErr(true);
     }
-    setLoading(false);
+    setRefreshing(false);
   }, [setErr, setLoading, dispatch]);
 
   navigation.setOptions({
@@ -105,6 +114,8 @@ const ProductsOverviewScreen = ({ navigation }) => {
 
   return (
     <FlatList
+      onRefresh={fetchProducts} // Function called when pull to refresh, returns promise
+      refreshing={refreshing} // Set to true when waiting for data
       data={availableProducts}
       renderItem={({ item }) => (
         <ProductItem
