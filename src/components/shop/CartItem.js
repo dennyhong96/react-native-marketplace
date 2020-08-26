@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginHorizontal: 20,
     marginBottom: 10,
+    borderRadius: 5,
   },
   itemData: {
     flexDirection: "row",

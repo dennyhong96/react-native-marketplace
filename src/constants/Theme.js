@@ -3,8 +3,8 @@ export default {
   secondary: "#715A92",
   shadow1: {
     shadowColor: "#000",
-    shadowOpacity: 0.26,
-    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowOffset: { width: 0, height: 4 },
     elevation: 5,
   },
 };

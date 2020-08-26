@@ -8,3 +8,5 @@ export const CREATE_ORDER = "CREATE_ORDER";
 
 // Products
 export const DELETE_PRODUCT = "DELETE_PRODUCTS";
+export const CREATE_PRODUCT = "CREATE_PRODUCT";
+export const EDIT_PRODUCT = "EDIT_PRODUCT";
