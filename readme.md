@@ -10,14 +10,14 @@
 
 ---
 
-<img src="./images/drawer.png" width="85%">
+<img src="./images/drawer.png" width="35%">
 
-<img src="./images/auth.png" width="85%">
+<img src="./images/auth.png" width="35%">
 
-<img src="./images/products.png" width="85%">
+<img src="./images/products.png" width="35%">
 
-<img src="./images/cart.png" width="85%">
+<img src="./images/cart.png" width="35%">
 
-<img src="./images/offer.png" width="85%">
+<img src="./images/offer.png" width="35%">
 
-<img src="./images/order.png" width="85%">
+<img src="./images/order.png" width="35%">
