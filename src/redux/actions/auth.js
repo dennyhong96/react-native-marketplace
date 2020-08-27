@@ -8,18 +8,29 @@ const config = {
   },
 };
 
+let timer;
+
+const startAuthSession = (expirationTime) => async (dispatch) => {
+  timer = setTimeout(() => {
+    dispatch(logout());
+  }, expirationTime);
+};
+
+export const logout = () => async (dispatch) => {
+  if (timer) {
+    clearTimeout(timer);
+  }
+  await AsyncStorage.removeItem("IDENTITY");
+  dispatch({
+    type: LOGOUT,
+  });
+};
+
 const saveIdentity = async (token, userId, expiresAt) => {
   await AsyncStorage.setItem(
     "IDENTITY",
     JSON.stringify({ token, userId, expiresAt })
   );
-};
-
-export const logout = () => async (dispatch) => {
-  await AsyncStorage.removeItem("IDENTITY");
-  dispatch({
-    type: LOGOUT,
-  });
 };
 
 export const localSignin = () => async (dispatch) => {
@@ -38,6 +49,7 @@ export const localSignin = () => async (dispatch) => {
           localId: userData.userId,
         },
       });
+      dispatch(startAuthSession(userData.expiresAt - new Date().getTime()));
     }
   }
 };
@@ -63,6 +75,8 @@ export const signup = (email, password) => async (dispatch) => {
       type: SIGNUP,
       payload: res.data,
     });
+
+    dispatch(startAuthSession(parseInt(res.data.expiresIn) * 1000));
   } catch (error) {
     if (error.response.data.error.message === "EMAIL_EXISTS") {
       throw new Error(`Account with ${email} already exists.`);
@@ -93,6 +107,8 @@ export const signin = (email, password) => async (dispatch) => {
       type: SIGNIN,
       payload: res.data,
     });
+
+    dispatch(startAuthSession(parseInt(res.data.expiresIn) * 1000));
   } catch (error) {
     console.log(error.response.data);
     if (error.response.data.error.message === "EMAIL_NOT_FOUND") {
