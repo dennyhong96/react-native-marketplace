@@ -29,7 +29,7 @@ const AuthScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
   navigation.setOptions({
-    headerTitle: isSignupMode ? "Please Sign up" : "Please log in",
+    headerTitle: isSignupMode ? "Please Sign Up" : "Please log In",
     headerTitleStyle: {
       color: Theme.primary,
     },
@@ -73,8 +73,8 @@ const AuthScreen = ({ navigation }) => {
       );
     } catch (error) {
       setErr(error.message);
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   if (err) {
@@ -90,7 +90,7 @@ const AuthScreen = ({ navigation }) => {
       behavior="padding"
       keyboardVerticalOffset={50}
     >
-      <LinearGradient colors={["#ffedff", "#ffe3ff"]} style={styles.gradient}>
+      <LinearGradient colors={["#845EC2", "#008F7A"]} style={styles.gradient}>
         <View style={styles.container}>
           <ScrollView>
             <View style={styles.formControl}>

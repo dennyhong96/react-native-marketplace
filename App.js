@@ -4,7 +4,6 @@ import * as Font from "expo-font";
 import { AppLoading } from "expo";
 
 import RootNavigator from "./src/navigators/index";
-
 import store from "./src/redux/store";
 
 const loadFonts = async () => {

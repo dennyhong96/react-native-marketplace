@@ -1,6 +1,6 @@
 export default {
-  primary: "#f96854",
-  secondary: "#715A92",
+  primary: "#008E9B",
+  secondary: "#845EC2",
   shadow1: {
     shadowColor: "#000",
     shadowOpacity: 0.15,

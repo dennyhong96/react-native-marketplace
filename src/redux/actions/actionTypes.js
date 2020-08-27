@@ -16,3 +16,4 @@ export const PRODUCTS_LISTED = "PRODUCTS_LISTED";
 // auth
 export const SIGNUP = "SIGNUP";
 export const SIGNIN = "SIGNIN";
+export const LOGOUT = "LOGOUT";

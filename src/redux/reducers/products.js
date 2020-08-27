@@ -1,4 +1,3 @@
-import PRODUCTS from "../../data/dummy-data";
 import {
   DELETE_PRODUCT,
   CREATE_PRODUCT,
@@ -18,8 +17,10 @@ export default (state = INITIAL_STATE, action) => {
     case PRODUCTS_LISTED:
       return {
         ...state,
-        availableProducts: payload,
-        userProducts: payload.filter((product) => product.owenerId === "u1"),
+        availableProducts: payload.productsList,
+        userProducts: payload.productsList.filter(
+          (product) => product.ownerId === payload.ownerId
+        ),
       };
     case DELETE_PRODUCT:
       return {
@@ -38,7 +39,7 @@ export default (state = INITIAL_STATE, action) => {
           ...state.availableProducts,
           new Product(
             payload.id,
-            "u1",
+            payload.ownerId,
             payload.title,
             payload.imageUrl,
             payload.description,
@@ -49,7 +50,7 @@ export default (state = INITIAL_STATE, action) => {
           ...state.userProducts,
           new Product(
             payload.id,
-            "u1",
+            payload.ownerId,
             payload.title,
             payload.imageUrl,
             payload.description,

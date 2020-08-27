@@ -6,6 +6,7 @@ import {
   ActivityIndicator,
   View,
   StyleSheet,
+  Text,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -56,6 +57,16 @@ const UserProductScreen = ({ navigation }) => {
       [{ text: "Okay", style: "default" }]
     );
     return setErr(false);
+  }
+
+  if (!loading && !userProducts.length) {
+    return (
+      <View style={styles.centered}>
+        <Text style={{ fontFamily: "open-sans-bold" }}>
+          No products found, please add some...
+        </Text>
+      </View>
+    );
   }
 
   return (

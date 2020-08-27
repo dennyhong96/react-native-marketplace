@@ -10,10 +10,11 @@ const config = {
   },
 };
 
-export const listOrders = () => async (dispatch) => {
+export const listOrders = () => async (dispatch, getState) => {
   try {
+    const userId = getState().auth.userId;
     const res = await axios.get(
-      "https://rn-shop-5c7c3.firebaseio.com/orders/u1.json"
+      `https://rn-shop-5c7c3.firebaseio.com/orders/${userId}.json`
     );
 
     const orders = res.data
@@ -40,15 +41,20 @@ export const listOrders = () => async (dispatch) => {
   }
 };
 
-export const createOrder = (items, totalAmount) => async (dispatch) => {
+export const createOrder = (items, totalAmount) => async (
+  dispatch,
+  getState
+) => {
   const payload = {
     items,
     totalAmount,
     date: new Date().toISOString(),
   };
+
   try {
+    const { token, userId } = getState().auth;
     const res = await axios.post(
-      "https://rn-shop-5c7c3.firebaseio.com/orders/u1.json",
+      `https://rn-shop-5c7c3.firebaseio.com/orders/${userId}.json?auth=${token}`,
       payload,
       config
     );
@@ -62,6 +68,7 @@ export const createOrder = (items, totalAmount) => async (dispatch) => {
     });
     dispatch(clearCart());
   } catch (error) {
+    console.log(error.response.data);
     throw error;
   }
 };
