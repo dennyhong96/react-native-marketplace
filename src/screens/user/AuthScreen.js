@@ -24,7 +24,7 @@ const AuthScreen = ({ navigation }) => {
   const [emailErr, setEmailErr] = useState("");
   const [passwordErr, setPasswordErr] = useState("");
   const [loading, setLoading] = useState(false);
-  const [err, setErr] = useState(false);
+  const [err, setErr] = useState("");
 
   const dispatch = useDispatch();
 
@@ -72,20 +72,16 @@ const AuthScreen = ({ navigation }) => {
         isSignupMode ? signup(email, password) : signin(email, password)
       );
     } catch (error) {
-      setErr(true);
+      setErr(error.message);
     }
     setLoading(false);
   };
 
   if (err) {
-    Alert.alert(
-      "Somthing went wrong",
-      isSignupMode
-        ? "Error signing up, please try again."
-        : "Error signing in, please try again",
-      [{ text: "Okay", style: "default" }]
-    );
-    return setErr(false);
+    Alert.alert("Somthing went wrong", err, [
+      { text: "Okay", style: "default" },
+    ]);
+    return setErr("");
   }
 
   return (
