@@ -12,3 +12,7 @@ export const DELETE_PRODUCT = "DELETE_PRODUCTS";
 export const CREATE_PRODUCT = "CREATE_PRODUCT";
 export const EDIT_PRODUCT = "EDIT_PRODUCT";
 export const PRODUCTS_LISTED = "PRODUCTS_LISTED";
+
+// auth
+export const SIGNUP = "SIGNUP";
+export const SIGNIN = "SIGNIN";
