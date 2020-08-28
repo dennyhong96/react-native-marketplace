@@ -2,6 +2,13 @@ import React, { useState } from "react";
 import { Provider } from "react-redux";
 import * as Font from "expo-font";
 import { AppLoading } from "expo";
+import * as Notifications from "expo-notifications";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => {
+    return { shouldShowAlert: true };
+  },
+});
 
 import RootNavigator from "./src/navigators/index";
 import store from "./src/redux/store";

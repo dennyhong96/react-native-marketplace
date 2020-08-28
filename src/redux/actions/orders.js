@@ -51,6 +51,8 @@ export const createOrder = (items, totalAmount) => async (
     date: new Date().toISOString(),
   };
 
+  // console.log(items);
+
   try {
     const { token, userId } = getState().auth;
     const res = await axios.post(
@@ -66,6 +68,28 @@ export const createOrder = (items, totalAmount) => async (
         id: res.data.name,
       },
     });
+
+    const pushConfig = {
+      headers: {
+        Accept: "application/json",
+        "Accept-Encoding": "gzip, deflate",
+        "Content-Type": "application/json",
+      },
+    };
+
+    const pushNotificationPromises = items.map((item) => {
+      axios.post(
+        "http://exp.host/--/api/v2/push/send",
+        {
+          to: item.pushToken,
+          title: `${item.title} sold!`,
+          body: `Some one purchased your product ${item.title}`,
+        },
+        pushConfig
+      );
+    });
+    Promise.all(pushNotificationPromises);
+
     dispatch(clearCart());
   } catch (error) {
     console.log(error.response.data);

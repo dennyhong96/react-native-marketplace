@@ -1,7 +1,6 @@
 import axios from "axios";
 import * as Notification from "expo-notifications";
 import * as Permissions from "expo-permissions";
-import { Alert } from "react-native";
 
 import {
   DELETE_PRODUCT,
@@ -46,7 +45,12 @@ export const createProduct = (formData) => async (dispatch, getState) => {
 
     dispatch({
       type: CREATE_PRODUCT,
-      payload: { ...formData, id: res.data.name, ownerId: userId },
+      payload: {
+        ...formData,
+        id: res.data.name,
+        ownerId: userId,
+        pushToken,
+      },
     });
   } catch (error) {
     console.log(error.response.data);
@@ -69,6 +73,7 @@ export const listProducts = () => async (dispatch, getState) => {
               ...res.data[key],
               id: key,
               price: parseFloat(res.data[key].price),
+              pushToken: res.data[key].ownerPushToken,
             },
           ],
           []

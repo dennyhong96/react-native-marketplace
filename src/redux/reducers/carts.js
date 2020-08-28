@@ -23,12 +23,14 @@ export default (state = INITIAL_STATE, action) => {
         newState.items[payload.id].productPrice = payload.price;
         newState.items[payload.id].quantity++;
         newState.items[payload.id].sum += payload.price;
+        newState.items[payload.id].pushToken = payload.pushToken;
       } else {
         // Handle add new item into cart
         newState.items[payload.id] = new CartItem(
           1,
           payload.price,
           payload.title,
+          payload.pushToken,
           payload.price
         );
       }

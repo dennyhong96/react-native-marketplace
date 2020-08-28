@@ -43,7 +43,8 @@ export default (state = INITIAL_STATE, action) => {
             payload.title,
             payload.imageUrl,
             payload.description,
-            Number(payload.price)
+            Number(payload.price),
+            payload.pushToken
           ),
         ],
         userProducts: [

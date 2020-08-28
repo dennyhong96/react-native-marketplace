@@ -22,7 +22,11 @@ const CartScreen = ({ navigation }) => {
   const totalAmount = useSelector(({ carts: { totalAmount } }) => totalAmount);
   const cartItems = useSelector(({ carts: { items } }) =>
     Object.keys(items)
-      .map((key) => ({ productId: key, ...items[key] }))
+      .map((key) => ({
+        productId: key,
+        ...items[key],
+        productPushToken: items[key].pushToken,
+      }))
       .sort((a, b) => (a.productId > b.productId ? 1 : -1))
   );
 
