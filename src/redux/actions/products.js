@@ -1,4 +1,7 @@
 import axios from "axios";
+import * as Notification from "expo-notifications";
+import * as Permissions from "expo-permissions";
+import { Alert } from "react-native";
 
 import {
   DELETE_PRODUCT,
@@ -9,10 +12,31 @@ import {
 
 export const createProduct = (formData) => async (dispatch, getState) => {
   try {
+    let pushToken;
+    // Check if user gave notification permission
+    const { status: oldStatus } = await Permissions.getAsync(
+      Permissions.USER_FACING_NOTIFICATIONS
+    );
+    if (oldStatus !== "granted") {
+      // Ask user for permission
+      const { status: newStatus } = await Permissions.askAsync(
+        Permissions.USER_FACING_NOTIFICATIONS
+      );
+      // Uesr does not give permission
+      if (newStatus !== "granted") {
+        pushToken = null;
+      }
+    }
+    // If permitts notification, get their device push token from expo
+    if (pushToken !== null) {
+      const res = await Notification.getExpoPushTokenAsync();
+      pushToken = res.data;
+    }
+
     const { token, userId } = getState().auth;
     const res = await axios.post(
       `https://rn-shop-5c7c3.firebaseio.com/products.json?auth=${token}`,
-      { ...formData, ownerId: userId },
+      { ...formData, ownerId: userId, ownerPushToken: pushToken },
       {
         headers: {
           "Content-Type": "application/json",
